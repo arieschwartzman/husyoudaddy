@@ -1,0 +1,37 @@
+﻿@page "/fetchdata"
+
+@using Husyoudaddy.Data
+@inject CosmosTableService CosmosService;
+
+<h1>Huss your daddy</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+<input type="search" @bind-value="tenantName"/>
+<button @onclick="searchOwner">Search</button>
+
+@if (loading) {
+    <p><em>Loading...</em></p>
+} 
+@if (tenant != null) {
+    <div>        
+        @tenant.email
+    </div>
+}
+
+
+@code {
+    Tenant tenant;
+    string tenantName = "healthagentlocaldev";
+    bool loading = false;
+
+    protected async void searchOwner() {
+        loading = true;
+        var tenantsSegment = await CosmosService.GetTenantByNameAsync(tenantName);
+        loading = false;
+        if (tenantsSegment.Results.Count > 0 ) {
+            tenant = tenantsSegment.Results[0];
+        }
+        StateHasChanged();
+    }
+    
+}

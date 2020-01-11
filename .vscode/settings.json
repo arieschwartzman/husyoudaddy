@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "",
+    "appService.defaultWebAppToDeploy": "/subscriptions/eabec01e-cbfe-4695-9ad8-4211c2495782/resourceGroups/Blazor/providers/Microsoft.Web/sites/Husyoudaddy20200111044857"
+}
