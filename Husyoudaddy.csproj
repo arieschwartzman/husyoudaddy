@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="2.0.0-preview" />
+    <PackageReference Include="Blazored.Typeahead" Version="4.2.2" />
   </ItemGroup>
 
 </Project>

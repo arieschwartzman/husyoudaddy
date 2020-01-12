@@ -1,0 +1,38 @@
+@using Blazored.Typeahead
+@using Data;
+
+<p>Search for Tenant</p>
+<div class="form-group">
+    <label>Tenant Name:</label>
+    <BlazoredTypeahead SearchMethod="SearchTenants"
+                       @bind-Value="SelectedTenant">
+        <SelectedTemplate>
+            @context.name
+        </SelectedTemplate>
+        <ResultTemplate>
+            @context.name
+        </ResultTemplate>
+    </BlazoredTypeahead>
+</div>
+<button class="btn btn-primary" @onclick="@onClick">Search</button>
+
+@code {
+    public Tenant SelectedTenant;
+
+    [Parameter]
+    public EventCallback<Tenant> OnSearch { get; set; }
+
+    [Parameter]
+    public List<Tenant> Tenants { get; set; }
+
+    void onClick()
+    {
+        OnSearch.InvokeAsync(SelectedTenant);
+    }
+
+    private async Task<IEnumerable<Tenant>> SearchTenants(string searchText)
+    {
+        return await Task.FromResult(Tenants.Where(x => x.name.ToLower().Contains(searchText.ToLower())).ToList());
+    }
+
+}
