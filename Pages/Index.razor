@@ -1,5 +1,66 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+@using Husyoudaddy.Data
+@using Husyoudaddy.Shared
+@using Microsoft.Azure.Cosmos.Table;
 
-Welcome to your new app.
+@inject CosmosTableService CosmosService;
+
+<h1>HUS your daddy</h1>
+<SearchForm OnSearch="searchOwner" Tenants="allTenants" />
+
+@if (loading)
+{
+    <p><em>Loading...</em></p>
+}
+@if (foundTenant != null)
+{
+<div class="container-fluid" style="margin-top:10px">
+    <div class="row">
+        <div class="col">
+            Email
+        </div>
+        <div class="col-6">
+            @foundTenant.email
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            Friendly
+        </div>
+        <div class="col-6">
+            @foundTenant.friendly_name
+        </div>
+    </div>
+</div>
+
+}
+
+
+@code {
+    Tenant tenant;
+    bool loading = false;
+    List<Tenant> allTenants;
+    Tenant foundTenant;
+
+    protected async override void OnInitialized()
+    {
+
+        loading = true;
+        allTenants = await CosmosService.GetAllTenantsAsync();
+        loading = false;
+        StateHasChanged();
+
+        base.OnInitialized();
+    }
+
+    protected async void searchOwner(Tenant tenant)
+    {
+        loading = true;
+        TableResult result = await CosmosService.GetTenantByIdAsync(tenant.RowKey);
+        foundTenant = result.Result as Tenant;
+        loading = false;
+        StateHasChanged();
+    }
+
+}
