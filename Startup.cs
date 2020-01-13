@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Husyoudaddy.Data;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Table;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Security.Claims;
 
 namespace Husyoudaddy
 {
@@ -65,10 +62,19 @@ namespace Husyoudaddy
                         return Task.CompletedTask;
                     },
                     // If your application needs to authenticate single users, add your user validation below.
-                    //OnTokenValidated = context =>
-                    //{
-                    //    return myUserValidationLogic(context.Ticket.Principal);
-                    //}
+                    OnTokenValidated = context =>
+                    {
+                        if (context.Principal.Identity.Name.Equals("ariesch@microsoft.com"))
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Role, "sysadmin")
+                            };
+                            var appIdentity = new ClaimsIdentity(claims);
+                            context.Principal.AddIdentity(appIdentity);
+                        }
+                        return Task.CompletedTask;
+                    }
                 };
             });
 
