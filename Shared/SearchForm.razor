@@ -4,14 +4,13 @@
 
 <div class="form-group">
     <h3>Tenant Name:</h3>
-    @*<RadzenAutoComplete Data="@Tenants" TextProperty="name" Change="@(args => Change(args, "AutoComplete"))" Style="width:400px;" />*@
     <BlazoredTypeahead SearchMethod="SearchTenants"
                         @bind-Value="SelectedTenant">
         <SelectedTemplate>
-            @context.name
+            @context?.name
         </SelectedTemplate>
         <ResultTemplate>
-            @context.name
+            @context?.name
         </ResultTemplate>
     </BlazoredTypeahead>
 </div>

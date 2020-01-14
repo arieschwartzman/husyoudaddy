@@ -3,7 +3,8 @@
 
 @using Husyoudaddy.Data
 @using Husyoudaddy.Shared
-@using Microsoft.Azure.Cosmos.Table;
+@using Microsoft.Azure.Cosmos.Table
+@using Radzen.Blazor
 
 @inject CosmosTableService CosmosService;
 
@@ -14,28 +15,35 @@
 {
     <p><em>Loading...</em></p>
 }
-@if (foundTenant != null)
-{
-    <div class="container-fluid" style="margin-top:10px">
-        <div class="row">
-            <div class="col">
-                Email
-            </div>
-            <div class="col-6">
-                @foundTenant.email
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                Friendly
-            </div>
-            <div class="col-6">
-                @foundTenant.friendly_name
-            </div>
-        </div>
-    </div>
 
-}
+<div class="row">
+    <RadzenCard Style="width:600px; margin-top: 20px; height:500px;">
+        <div class="col-md-12">
+            <div>Friendly Name:</div>
+            <b>@foundTenant?.friendly_name</b>
+            <div style="margin-top:20px">E-mail:</div>
+            <b>@foundTenant?.email</b>
+            <div style="margin-top:20px">SaaS Subscription Id:</div>
+            <b>@foundTenant?.saasSubscriptionId</b>
+            <div style="margin-top:20px">Max Messages:</div>
+            <b>@foundTenant?.maxMessages</b>
+            <div style="margin-top:20px">Messages Count:</div>
+            <b>@foundTenant?.msgCount</b>
+            <div style="margin-top:20px">App Id:</div>
+            <b>@foundTenant?.app_id</b>
+            <div style="margin-top:20px">App Secret:</div>
+            <b>@foundTenant?.app_secret</b>
+        </div>
+    </RadzenCard>
+    <RadzenCard Style="width:600px; margin-top: 20px; height:500px; margin-left:20px;">
+        <div class="col-md-12">
+            <div>Bot Name:</div>
+            <b>@foundTenant?.botName</b>
+            <div style="margin-top:20px">Webchat Secret:</div>
+            <b>@foundTenant?.webchat_secret</b>
+        </div>
+    </RadzenCard>
+</div>
 
 
 @code {
