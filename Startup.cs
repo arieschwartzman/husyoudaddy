@@ -66,21 +66,9 @@ namespace Husyoudaddy
                         return Task.CompletedTask;
                     },
                     // If your application needs to authenticate single users, add your user validation below.
-                    OnTokenValidated = async context =>
+                    OnTokenValidated = context =>
                     {
-                        //HttpClient httpClient = GraphClientFactory.Create(new AuthProvider(context.SecurityToken));
-                        //HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, "me/drive");
-                        //HttpResponseMessage response = await httpClient.SendAsync(requestMessage);
-                        
-                        if (context.Principal.Identity.Name.Equals("ariesch@microsoft.com"))
-                        {
-                            var claims = new List<Claim>
-                            {
-                                new Claim(ClaimTypes.Role, "sysadmin")
-                            };
-                            var appIdentity = new ClaimsIdentity(claims);
-                            context.Principal.AddIdentity(appIdentity);
-                        }
+                        return Task.CompletedTask;
                         
                     }
                 };
