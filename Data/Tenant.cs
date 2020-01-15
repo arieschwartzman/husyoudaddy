@@ -14,5 +14,6 @@ namespace Husyoudaddy.Data
         public string app_secret {get;set;}
         public string botName { get; set; }
         public string webchat_secret { get; set; }
+        public string planId { get; set; }
     }
 }
