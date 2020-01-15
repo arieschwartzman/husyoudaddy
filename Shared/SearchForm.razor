@@ -32,11 +32,6 @@
         OnSearch.InvokeAsync(SelectedTenant);
     }
 
-    void Change(object value, string name)
-    {
-        SelectedTenant  = Tenants.Find(t => t.name.Equals((string)value));
-    }
-
     private async Task<IEnumerable<Tenant>> SearchTenants(string searchText)
     {
         return await Task.FromResult(Tenants.Where(x => x.name.ToLower().Contains(searchText.ToLower())).ToList());
