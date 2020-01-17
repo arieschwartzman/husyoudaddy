@@ -49,6 +49,26 @@ namespace Husyoudaddy.Data
             } while (token != null);
 
             return list;
+        
+        }
+
+        public async Task<List<Scenario>> GetAllScenariosAsync(string tenantId)
+        {
+          var table = tableClient.GetTableReference("scenarios");
+          TableContinuationToken token = null;
+          List<Scenario> list = new List<Scenario>();
+
+          do
+          {
+            TableQuery<Scenario> rangeQuery = new TableQuery<Scenario>().Where(
+                    TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, tenantId));
+            TableQuerySegment<Scenario> segment = await table.ExecuteQuerySegmentedAsync(rangeQuery, token);
+            token = segment.ContinuationToken;
+            list.AddRange(segment.Results);
+
+          } while (token != null);
+
+          return list;
 
         }
 
