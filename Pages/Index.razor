@@ -9,16 +9,16 @@
 @inject CosmosTableService CosmosService;
 
 <h1>HUS your daddy</h1>
-<SearchForm OnSearch="searchOwner" Tenants="allTenants" />
+<SearchForm OnSearch="searchOwner" Tenants="@allTenants" />
 
 @if (loading)
 {
     <p><em>Loading...</em></p>
 }
 
-<div class="row">
-    <RadzenCard Style="width:600px; margin-top: 20px; height:500px;">
-        <div class="col-md-12">
+<div class="row" style="margin-top:20px">
+    <div class="col-md-6">
+        <RadzenCard>
             <div>Friendly Name:</div>
             <b>@foundTenant?.friendly_name</b>
             <div style="margin-top:20px">E-mail:</div>
@@ -33,10 +33,10 @@
             <b>@foundTenant?.app_id</b>
             <div style="margin-top:20px">App Secret:</div>
             <b>@foundTenant?.app_secret</b>
-        </div>
-    </RadzenCard>
-    <RadzenCard Style="width:600px; margin-top: 20px; height:500px; margin-left:20px;">
-        <div class="col-md-12">
+        </RadzenCard>
+    </div>
+    <div class="col-md-6">
+        <RadzenCard>
             <div>Bot Name:</div>
             <b>@foundTenant?.botName</b>
             <div style="margin-top:20px">Webchat Secret:</div>
@@ -47,17 +47,27 @@
             <b>@foundTenant?.armGroup</b>
             <div style="margin-top:20px">Subscription Id:</div>
             <b>@foundTenant?.subscriptionId</b>
-        </div>
-    </RadzenCard>
+        </RadzenCard>
+    </div>
 </div>
-<div class="row">
-    <RadzenCard Style="width:800px; margin-top: 20px;">
-        <RadzenGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@allScenarios" TItem="Scenario" ColumnWidth="200px">
-            <Columns>
-                <RadzenGridColumn TItem="Scenario" Property="name" Title="Name" />
-            </Columns>
-        </RadzenGrid>
-    </RadzenCard>
+<div class="row" style="margin-top:20px">
+        <div class="col-md-6">
+            <RadzenCard>
+                <RadzenGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@allScenarios" TItem="Scenario" ColumnWidth="200px" RowSelect="@onSelect">
+                    <Columns>
+                        <RadzenGridColumn TItem="Scenario" Property="name" Title="Name" />
+                        <RadzenGridColumn TItem="Scenario" Property="scenario_trigger" Title="Id" />
+                        <RadzenGridColumn TItem="Scenario" Property="updated" Title="Updated" />
+                        <RadzenGridColumn TItem="Scenario" Property="description" Title="Description" />
+                    </Columns>
+                </RadzenGrid>
+            </RadzenCard>
+        </div>
+        <div class="col-md-6">
+            <RadzenCard>
+                @selectedScenario?.RowKey
+            </RadzenCard>
+        </div>
 </div>
 
 
@@ -66,6 +76,7 @@
     List<Tenant> allTenants;
     List<Scenario> allScenarios;
     Tenant foundTenant;
+    Scenario selectedScenario;
 
     protected async override void OnInitialized()
     {
@@ -88,4 +99,8 @@
         StateHasChanged();
     }
 
+    protected void onSelect(Scenario args)
+    {
+        selectedScenario = args;
+    }
 }

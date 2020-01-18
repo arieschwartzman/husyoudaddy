@@ -1,18 +1,9 @@
 @using Data;
 @using Radzen.Blazor
-@using Blazored.Typeahead
 
 <div class="form-group">
     <h3>Tenant Name:</h3>
-    <BlazoredTypeahead SearchMethod="SearchTenants"
-                        @bind-Value="SelectedTenant">
-        <SelectedTemplate>
-            @context?.name
-        </SelectedTemplate>
-        <ResultTemplate>
-            @context?.name
-        </ResultTemplate>
-    </BlazoredTypeahead>
+    <RadzenAutoComplete Placeholder="Select Tenant" Data="@Tenants" TextProperty="name" Change="@(args=> Change(args, "AutoComplete"))" Style="width:400px"/>            
 </div>
 <RadzenButton Click="@onClick" Text="Search"/>
 
@@ -29,19 +20,12 @@
 
     void onClick()
     {
-      OnSearch.InvokeAsync(SelectedTenant);
+        OnSearch.InvokeAsync(SelectedTenant);
     }
 
-    private async Task<IEnumerable<Tenant>> SearchTenants(string searchText)
+    private void Change(object value, string name)
     {
-      if (Tenants != null)
-      {
-        return await Task.FromResult(Tenants?.Where(x => x.name.ToLower().Contains(searchText.ToLower())).ToList());
-      }
-      else
-      {
-        return null;
-      }
+        SelectedTenant = Tenants.Find(t => t.name.Equals(value));
     }
 
 }
