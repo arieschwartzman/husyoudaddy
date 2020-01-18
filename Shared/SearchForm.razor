@@ -29,17 +29,19 @@
 
     void onClick()
     {
-        OnSearch.InvokeAsync(SelectedTenant);
-    }
-
-    void Change(object value, string name)
-    {
-        SelectedTenant  = Tenants.Find(t => t.name.Equals((string)value));
+      OnSearch.InvokeAsync(SelectedTenant);
     }
 
     private async Task<IEnumerable<Tenant>> SearchTenants(string searchText)
     {
-        return await Task.FromResult(Tenants.Where(x => x.name.ToLower().Contains(searchText.ToLower())).ToList());
+      if (Tenants != null)
+      {
+        return await Task.FromResult(Tenants?.Where(x => x.name.ToLower().Contains(searchText.ToLower())).ToList());
+      }
+      else
+      {
+        return null;
+      }
     }
 
 }

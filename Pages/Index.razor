@@ -41,7 +41,22 @@
             <b>@foundTenant?.botName</b>
             <div style="margin-top:20px">Webchat Secret:</div>
             <b>@foundTenant?.webchat_secret</b>
+            <div style="margin-top:20px">Plan Id:</div>
+            <b>@foundTenant?.planId</b>
+            <div style="margin-top:20px">Resource Group:</div>
+            <b>@foundTenant?.armGroup</b>
+            <div style="margin-top:20px">Subscription Id:</div>
+            <b>@foundTenant?.subscriptionId</b>
         </div>
+    </RadzenCard>
+</div>
+<div class="row">
+    <RadzenCard Style="width:800px; margin-top: 20px;">
+        <RadzenGrid AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true" Data="@allScenarios" TItem="Scenario" ColumnWidth="200px">
+            <Columns>
+                <RadzenGridColumn TItem="Scenario" Property="name" Title="Name" />
+            </Columns>
+        </RadzenGrid>
     </RadzenCard>
 </div>
 
@@ -49,6 +64,7 @@
 @code {
     bool loading = false;
     List<Tenant> allTenants;
+    List<Scenario> allScenarios;
     Tenant foundTenant;
 
     protected async override void OnInitialized()
@@ -66,6 +82,7 @@
     {
         loading = true;
         TableResult result = await CosmosService.GetTenantByIdAsync(tenant.RowKey);
+        allScenarios = await CosmosService.GetAllScenariosAsync(tenant.RowKey);
         foundTenant = result.Result as Tenant;
         loading = false;
         StateHasChanged();
