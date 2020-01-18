@@ -1,3 +1,8 @@
 /bin
 /obj
 .vs/Husyoudaddy/v16
+*.suo
+db.lock
+storage.ide
+.dbcache
+*.user
