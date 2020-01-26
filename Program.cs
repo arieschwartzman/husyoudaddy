@@ -22,15 +22,19 @@ namespace Husyoudaddy
         public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((ctx, config) =>
         {
-            var root = config.Build();
-            var tokenprovider = new AzureServiceTokenProvider();
-            var kvClient = new KeyVaultClient((authority, resource, scope) => tokenprovider.KeyVaultTokenCallback(authority, resource, scope));
-            config.AddAzureKeyVault(root["KeyVault:VaultUrl"], kvClient, new DefaultKeyVaultSecretManager());
-            /*
-            config.AddAzureKeyVault(
+          var root = config.Build();
+          var tokenProvider = new AzureServiceTokenProvider();
+          var kvClient = new KeyVaultClient((authority, resource, scope) => tokenProvider.KeyVaultTokenCallback(authority, resource, scope));
+           config.AddAzureKeyVault(root["KeyVault:VaultUrl"], kvClient, new DefaultKeyVaultSecretManager());
+
+         
+          //var root = config.Build();
+          /*
+              config.AddAzureKeyVault(
                    root["KeyVault:VaultUrl"],
                    root["KeyVault:ClientId"],
                    root["ClientSecret"]);*/
+                   
         })
         .ConfigureWebHostDefaults(webBuilder =>
         {
