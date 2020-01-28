@@ -2,6 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
-    <NameOfLastUsedPublishProfile>Husyoudaddy20200111044857 - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>Husyoudaddy - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
