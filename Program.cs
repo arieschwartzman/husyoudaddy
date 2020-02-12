@@ -25,8 +25,6 @@ namespace Husyoudaddy
             var root = config.Build();
             var tokenProvider = new AzureServiceTokenProvider();
             var kvClient = new KeyVaultClient((authority, resource, scope) => tokenProvider.KeyVaultTokenCallback(authority, resource, scope));
-            Console.WriteLine("Vault Url : " + root["KeyVault:VaultUrl"]);
-            Console.WriteLine("Vault Url __ " + root["KeyVault__VaultUrl"]);
             config.AddAzureKeyVault(root["KeyVault:VaultUrl"], kvClient, new DefaultKeyVaultSecretManager());
 
         })

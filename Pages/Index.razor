@@ -7,6 +7,7 @@
 @using Radzen.Blazor
 
 @inject CosmosTableService CosmosService;
+@inject Marketplace MarketplaceService;
 
 <h1>HUS your daddy</h1>
 <SearchForm OnSearch="searchOwner" Tenants="@allTenants" />
@@ -98,6 +99,7 @@
         TableResult result = await CosmosService.GetTenantByIdAsync(tenant.RowKey);
         allScenarios = await CosmosService.GetAllScenariosAsync(tenant.RowKey);
         foundTenant = result.Result as Tenant;
+        SaaSApplication app =  await MarketplaceService.GetSaaSSubscription(foundTenant.saasSubscriptionId);
         loading = false;
         StateHasChanged();
     }
