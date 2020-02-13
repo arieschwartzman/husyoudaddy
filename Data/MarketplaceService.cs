@@ -1,22 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace Husyoudaddy.Data
 {
-    public class Marketplace
+    public class MarketplaceService
     {
         string accessToken;
         IConfidentialClientApplication clientApp;
         IConfiguration config;        
 
-        public Marketplace(IConfiguration configuration) {
+        public MarketplaceService(IConfiguration configuration) {
             clientApp = ConfidentialClientApplicationBuilder.Create(configuration["Marketplace:ClientId"])
                         .WithAuthority(AzureCloudInstance.AzurePublic, configuration["Marketplace:TenantId"])
                         .WithClientSecret(configuration["marketplace-saas-api"])

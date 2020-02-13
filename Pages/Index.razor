@@ -7,9 +7,10 @@
 @using Radzen.Blazor
 
 @inject CosmosTableService CosmosService;
-@inject Marketplace MarketplaceService;
+@inject MarketplaceService MarketplaceService;
 
 <h1>HUS your daddy</h1>
+
 <SearchForm OnSearch="searchOwner" Tenants="@allTenants" />
 
 @if (loading)
@@ -18,7 +19,7 @@
 }
 
 <div class="row" style="margin-top:20px">
-    <div class="col-md-6">
+    <div class="col-md-4">
         <RadzenCard>
             <div>Friendly Name:</div>
             <b>@foundTenant?.friendly_name</b>
@@ -36,7 +37,7 @@
             <b>@foundTenant?.app_secret</b>
         </RadzenCard>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <RadzenCard>
             <div>Bot Name:</div>
             <b>@foundTenant?.botName</b>
@@ -48,6 +49,18 @@
             <b>@foundTenant?.armGroup</b>
             <div style="margin-top:20px">Subscription Id:</div>
             <b>@foundTenant?.subscriptionId</b>
+        </RadzenCard>
+    </div>
+    <div class="col-md-4">
+        <RadzenCard>
+            <div>Name:</div>
+            <b>@saaSApplication?.name</b>
+            <div style="margin-top:20px">Status</div>
+            <b>@saaSApplication?.saasSubscriptionStatus</b>
+            <div style="margin-top:20px">Plan</div>
+            <b>@saaSApplication?.planId</b>
+            <div style="margin-top:20px">Purchaser</div>
+            <b>@saaSApplication?.purchaser.emailId</b>
         </RadzenCard>
     </div>
 </div>
@@ -81,6 +94,7 @@
     List<Scenario> allScenarios;
     Tenant foundTenant;
     Scenario selectedScenario;
+    SaaSApplication saaSApplication;
 
     protected async override void OnInitialized()
     {
@@ -99,7 +113,7 @@
         TableResult result = await CosmosService.GetTenantByIdAsync(tenant.RowKey);
         allScenarios = await CosmosService.GetAllScenariosAsync(tenant.RowKey);
         foundTenant = result.Result as Tenant;
-        SaaSApplication app =  await MarketplaceService.GetSaaSSubscription(foundTenant.saasSubscriptionId);
+        saaSApplication =  await MarketplaceService.GetSaaSSubscription(foundTenant.saasSubscriptionId);
         loading = false;
         StateHasChanged();
     }
