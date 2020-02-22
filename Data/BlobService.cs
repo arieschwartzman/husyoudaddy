@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Husyoudaddy.Data
 {
@@ -25,8 +26,9 @@ namespace Husyoudaddy.Data
             BlobClient blobClient = containerClient.GetBlobClient(tenant + "/" + id);
             BlobDownloadInfo download = await blobClient.DownloadAsync();
             StreamReader reader = new StreamReader(download.Content);
-            string s = await reader.ReadToEndAsync();
-            return s;
+            string code = await reader.ReadToEndAsync();
+            dynamic parsedJson = JsonConvert.DeserializeObject(code);
+            return JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
         }
     }
 }

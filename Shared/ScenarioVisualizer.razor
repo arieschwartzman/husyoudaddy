@@ -1,8 +1,6 @@
 ﻿<h3>ScenarioVisualizer</h3>
 
-<EditForm Model="@Content">
-    <InputTextArea @bind-Value="Content" Style="width:100%; height:400px" />
-</EditForm>
+<Radzen.Blazor.RadzenTextArea Value="@Content" Style="width:100%; height:500px" />
 
 @code {
     [Parameter]

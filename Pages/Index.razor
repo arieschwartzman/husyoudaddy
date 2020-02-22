@@ -121,5 +121,6 @@
     {
         selectedScenario = args;
         ScenarioCode = await BlobService.getScenarioCode(foundTenant.name, args.RowKey);
+        StateHasChanged();
     }
 }
