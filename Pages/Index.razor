@@ -8,6 +8,7 @@
 
 @inject CosmosTableService CosmosService;
 @inject MarketplaceService MarketplaceService;
+@inject BlobService BlobService;
 
 <h1>HUS your daddy</h1>
 
@@ -79,10 +80,7 @@
         </div>
         <div class="col-md-6">
             <RadzenCard>
-                <ScenarioVisualizer>
-
-                </ScenarioVisualizer>
-                @selectedScenario?.RowKey
+                <ScenarioVisualizer Content="@ScenarioCode" />
             </RadzenCard>
         </div>
 </div>
@@ -95,6 +93,7 @@
     Tenant foundTenant;
     Scenario selectedScenario;
     SaaSApplication saaSApplication;
+    string ScenarioCode = "This is the code";
 
     protected async override void OnInitialized()
     {
@@ -118,8 +117,9 @@
         StateHasChanged();
     }
 
-    protected void onSelect(Scenario args)
+    protected async void onSelect(Scenario args)
     {
         selectedScenario = args;
+        ScenarioCode = await BlobService.getScenarioCode(foundTenant.name, args.RowKey);
     }
 }
